@@ -3,7 +3,7 @@
 module View.HomeView where
 
 import Prelude hiding (head)
-import Text.Blaze.Html5 as H hiding (map, param, main)
+import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes as HA hiding (title, span, form)
 
 homeView :: Html
@@ -12,6 +12,6 @@ homeView = docTypeHtml $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
         title "Magyar-angol szó- és mondatgyakorló"
-    H.body $ do
+    body $ do
         h1 "Magyar-angol szó- és mondatgyakorló"
         img ! src "img/favicon.png"
