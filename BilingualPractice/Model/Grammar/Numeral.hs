@@ -1,6 +1,6 @@
 module BilingualPractice.Model.Grammar.Numeral where
 
-import BilingualPractice.Model.Grammar.Phonology (paradigmCombine, paradigmCombineSep)
+import BilingualPractice.Model.Grammar.ParadigmCombination (paradigmCombine, paradigmCombineSep)
 
 
 numerals_table :: [(String, String)]

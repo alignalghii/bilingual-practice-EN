@@ -1,4 +1,4 @@
-module  BilingualPractice.Model.Grammar.Phonology where
+module  BilingualPractice.Model.Grammar.ParadigmCombination where
 
 import Data.ListX (descartesProduct2With, matrixSpanned2With)
 import Data.Monoid (Monoid, (<>))
