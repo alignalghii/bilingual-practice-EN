@@ -1,10 +1,11 @@
-module BilingualPractice.Model.Grammar.Numeral where
+module BilingualPractice.Model.Grammar.Numeral (numeralsTable) where
 
 import BilingualPractice.Model.Grammar.ParadigmCombination (paradigmCombine, paradigmCombineSep)
+import Data.List (zip4)
 
 
-numerals_table :: [(String, String)]
-numerals_table = zip numerals_en numerals_hu
+numeralsTable :: [(String, String, String, String)]
+numeralsTable = zip4 numerals_en numerals_hu (repeat "Szó") (repeat "Könnyű")
 
 numerals_hu, numerals_en :: [String]
 numerals_hu = concat $ (zero_hu : ones_hu) : zipWith (:) tens_hu (paradigmCombine tensAnd_hu ones_hu)

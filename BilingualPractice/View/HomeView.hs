@@ -2,9 +2,9 @@
 
 module BilingualPractice.View.HomeView where
 
-import Prelude hiding (head)
+import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map)
-import Text.Blaze.Html5.Attributes as HA hiding (title, span, form)
+import Text.Blaze.Html5.Attributes as HA hiding (title, form, span)
 
 homeView :: Html
 homeView = docTypeHtml $ do
@@ -14,4 +14,7 @@ homeView = docTypeHtml $ do
         title "Magyar-angol szó- és mondatgyakorló"
     body $ do
         h1 "Magyar-angol szó- és mondatgyakorló"
-        img ! src "img/favicon.png"
+        ul $ do
+            li $ do
+                a ! href "/dump" $ "Teljes kimutatás"
+                span "(adminisztrátoroknak, fejlesztőknek)"
