@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Router where
+module BilingualPractice.Router where
 
-import Controller.HomeController (homeAction)
-import BuiltinServer (builtinServerOptions)
+import BilingualPractice.Controller.HomeController (homeAction)
+import BilingualPractice.BuiltinServer (builtinServerOptions)
 import Web.Scotty (ScottyM, middleware, get)
 
 router :: ScottyM ()

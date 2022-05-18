@@ -1,4 +1,4 @@
-module Controller.Base where
+module BilingualPractice.Controller.Base where
 
 import Web.Scotty (ActionM, html)
 import Text.Blaze.Html5 (Html)

@@ -1,4 +1,4 @@
-module BuiltinServer (builtinServerOptions) where
+module BilingualPractice.BuiltinServer (builtinServerOptions) where
 
 import Network.Wai (Middleware)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)

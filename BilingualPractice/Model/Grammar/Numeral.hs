@@ -1,4 +1,4 @@
-module Model.HardcodedDatabase.Sample where
+module Bilingual.Model.Grammar.Numeral where
 
 ones_hu, tens_hu, tensAnd_hu, ones_en, tens_en, teens_en :: [String]
 

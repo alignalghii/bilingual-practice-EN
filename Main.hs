@@ -2,7 +2,7 @@
 
 module Main (main) where
 
-import Router (router)
+import BilingualPractice.Router (router)
 import Web.Scotty (scotty)
 
 main :: IO ()
