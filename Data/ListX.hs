@@ -1,6 +1,8 @@
-{-# LANGUAGE TupleSections #-}
-
 module Data.ListX where
+
+import Data.Maybe.HT (toMaybe)
+import Data.Maybe (mapMaybe)
+
 
 descartesProduct2 :: [a] -> [b] -> [(a, b)]
 descartesProduct2 = descartesProduct2With (,)
@@ -15,3 +17,6 @@ matrixSpanned2With :: (a -> b -> c) -> [a] -> [b] -> [[c]]
 matrixSpanned2With f as bs = do
     a <- as
     return $ f a <$> bs
+
+selectByFlags :: [(a, Bool)] -> [a]
+selectByFlags = mapMaybe $ uncurry (flip toMaybe)

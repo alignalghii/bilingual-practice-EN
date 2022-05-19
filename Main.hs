@@ -1,9 +1,10 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Main (main) where
 
 import BilingualPractice.Router (router)
 import Web.Scotty (scotty)
+import System.Environment (getArgs)
 
 main :: IO ()
-main = scotty 3000 router
+main = do
+    logFlag <- (not . null) <$> getArgs
+    scotty 3000 $ router logFlag
