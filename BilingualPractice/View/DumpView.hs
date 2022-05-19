@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module BilingualPractice.View.DumpView where
+module BilingualPractice.View.DumpView (dumpView) where
 
 import Prelude hiding (head)
 import Text.Blaze.Html5 as H hiding (map)
