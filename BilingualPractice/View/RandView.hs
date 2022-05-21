@@ -15,7 +15,9 @@ randView records = docTypeHtml $ do
         title "Magyar-angol szó- és mondatgyakorló — Véletlen kiválasztás"
     body $ do
         h1 "Magyar-angol szó- és mondatgyakorló — Véletlen kiválasztás"
-        p $
+        p $ do
+            a ! href "/rand" $ "Újraválogatás"
+            span " ||| "
             a ! href "/" $ "Vissza a főoldalra"
         table $ do
             tr $ do
