@@ -62,3 +62,11 @@ randPermuteSM = state . randPermute
 
 randVariateMaxSM :: [a] -> Int -> SeedState ([a], [a])
 randVariateMaxSM as k = state $ randVariateMax as k
+
+-- To be built into complicated architecture:
+
+type SeedStateT m a = StateT StdGen m a
+
+-- randIterArch :: Monad m => Int -> (StdGen -> m (a, StdGen)) -> StdGen -> m ([a], StdGen)
+
+randIterArchSTM :: Monad m => Int -> SeedStateT m a -> SeedStateT m [a]
