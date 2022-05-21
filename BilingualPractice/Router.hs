@@ -2,7 +2,7 @@
 
 module BilingualPractice.Router where
 
-import BilingualPractice.Controller.HomeController (homeAction, dumpAction)
+import BilingualPractice.Controller.HomeController (homeAction, dumpAction, randAction)
 import BilingualPractice.BuiltinServer (builtinServerOptions)
 import Web.Scotty (ScottyM, middleware, get)
 
@@ -11,3 +11,4 @@ router logFlag = do
     mapM_ middleware $ builtinServerOptions logFlag
     get "/"     homeAction
     get "/dump" dumpAction
+    get "/rand" randAction

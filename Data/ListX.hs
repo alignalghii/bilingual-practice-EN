@@ -1,3 +1,5 @@
+{-# LANGUAGE NPlusKPatterns #-}
+
 module Data.ListX where
 
 import Data.Maybe.HT (toMaybe)
@@ -20,3 +22,15 @@ matrixSpanned2With f as bs = do
 
 selectByFlags :: [(a, Bool)] -> [a]
 selectByFlags = mapMaybe $ uncurry (flip toMaybe)
+
+-- A kind of modified zipper related function:
+
+type ListZipper_bothNonrev a = ([a], a, [a])
+
+select :: Int -> [a] -> Maybe (ListZipper_bothNonrev a)
+select _       []       = Nothing
+select 0       (a : as) = Just ([], a, as)
+select (i + 1) (a : as) = havingPassed a <$> select i as
+
+havingPassed :: a -> ListZipper_bothNonrev a -> ListZipper_bothNonrev a
+havingPassed a (before, a', after) = (a : before, a', after)

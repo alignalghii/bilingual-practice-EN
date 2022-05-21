@@ -5,6 +5,7 @@ module BilingualPractice.View.HomeView (homeView) where
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span)
+import Data.Bool (bool)
 
 homeView :: Html
 homeView = docTypeHtml $ do
@@ -18,3 +19,6 @@ homeView = docTypeHtml $ do
             li $ do
                 a ! href "/dump" $ "Teljes kimutatás"
                 span "(adminisztrátoroknak, fejlesztőknek)"
+            li $ do
+                a ! href "/rand" $ "Véletlen kiválasztás"
+                span "(mint előfázisa a valódi tudástesztnek, gyakorlásnak)"
