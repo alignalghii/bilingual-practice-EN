@@ -18,6 +18,8 @@ dumpAction :: ActionM ()
 dumpAction = blaze $ dumpView numeralsTable
 
 randAction :: ActionM ()
-randAction = liftIO newStdGen >>= (blaze . randView . fst . evalState (randVariateMaxSM numeralsTable 10))
+randAction = randQuery10 >>= (blaze . randView)
 
+randQuery10 :: ActionM [(String, String, String, String)]
+randQuery10 = (fst . evalState (randVariateMaxSM numeralsTable 10)) <$> liftIO newStdGen
 
