@@ -69,4 +69,4 @@ type SeedStateT m a = StateT StdGen m a
 
 -- randIterArch :: Monad m => Int -> (StdGen -> m (a, StdGen)) -> StdGen -> m ([a], StdGen)
 
-randIterArchSTM :: Monad m => Int -> SeedStateT m a -> SeedStateT m [a]
+-- randIterArchSTM :: Monad m => Int -> SeedStateT m a -> SeedStateT m [a]
