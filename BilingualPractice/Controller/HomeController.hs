@@ -4,7 +4,7 @@ module BilingualPractice.Controller.HomeController where
 
 import BilingualPractice.Controller.Base (blaze)
 import BilingualPractice.Model.Grammar.Numeral (numeralsTable)
-import BilingualPractice.Model.Entities.MainEntity (MainEntity, project_en, conferResults)
+import BilingualPractice.Model.RelationalBusinessLogic (MainEntity, project_en, conferResults)
 import BilingualPractice.View.HomeView     (homeView)
 import BilingualPractice.View.DumpView     (dumpView)
 import BilingualPractice.View.RandView     (randView)

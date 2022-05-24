@@ -1,4 +1,4 @@
-module BilingualPractice.Model.Entities.MainEntity where
+module BilingualPractice.Model.RelationalBusinessLogic where
 
 import Data.Bool (bool)
 

@@ -2,7 +2,7 @@
 
 module BilingualPractice.View.QuestionView (questionView, resultView) where
 
-import BilingualPractice.Model.Entities.MainEntity (ConferEntity) -- code smell?
+import BilingualPractice.Model.RelationalBusinessLogic (ConferEntity) -- code smell?
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span, label)
