@@ -3,7 +3,7 @@
 module BilingualPractice.Controller.HomeController where
 
 import BilingualPractice.Controller.Base (blaze)
-import BilingualPractice.Model.RelationalBusinessLogic (MainEntity (..), numeralsTable, conferResults)
+import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..), numeralsTable, conferPracticeCertificate)
 import BilingualPractice.View.HomeView     (homeView)
 import BilingualPractice.View.DumpView     (dumpView)
 import BilingualPractice.View.RandView     (randView)
@@ -38,12 +38,12 @@ prepareExamenEtalon :: IO ()
 prepareExamenEtalon = do
     etalon <- randQuery 10 numeralsTable
     writeTable "etalon.table" etalon
-    writeTable "personal.table" ([] :: [MainEntity])
+    writeTable "personal.table" ([] :: [LexiconEntry])
 
 poseFirstRemainingExamenQuestionOrAnounceResultAction :: ActionM ()
 poseFirstRemainingExamenQuestionOrAnounceResultAction = do
-    etalon   <- liftIO $ readTable "etalon.table"   :: ActionM [MainEntity]
-    personal <- liftIO $ readTable "personal.table" :: ActionM [MainEntity]
+    etalon   <- liftIO $ readTable "etalon.table"   :: ActionM [LexiconEntry]
+    personal <- liftIO $ readTable "personal.table" :: ActionM [LexiconEntry]
     let etalon_questions     = map en etalon
         answered_questions   = map en personal
         unanswered_questions = etalon_questions \\ answered_questions
@@ -54,11 +54,11 @@ receiveAnswerForQuestion = do
     en       <- param "en"
     hu       <- param "hu"
     personal <- liftIO $ do
-                             personal <- readTable "personal.table" :: IO [MainEntity]
-                             -- personal       <- read <$> hGetContents personalHandle :: IO [MainEntity]
-                             writeTable "personal.table" $ personal ++ [ME {en, hu, entity = "", difficulty = ""}]
+                             personal <- readTable "personal.table" :: IO [LexiconEntry]
+                             -- personal       <- read <$> hGetContents personalHandle :: IO [LexiconEntry]
+                             writeTable "personal.table" $ personal ++ [LxcE {en, hu, entity = "", difficulty = ""}]
                              -- liftIO $ writeTable "personal.table" $ personal ++ [(en, hu, "", "")]
     redirect "/question"
 
-announceResult :: [MainEntity] -> [MainEntity] -> ActionM ()
-announceResult etalon personal = blaze $ resultView $ conferResults etalon personal
+announceResult :: [LexiconEntry] -> [LexiconEntry] -> ActionM ()
+announceResult etalon personal = blaze $ resultView $ conferPracticeCertificate etalon personal

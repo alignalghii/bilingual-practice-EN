@@ -2,13 +2,13 @@
 
 module BilingualPractice.View.RandView (randView) where
 
-import BilingualPractice.Model.RelationalBusinessLogic (MainEntity (..))
+import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..))
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span)
 import Control.Monad (forM_)
 
-randView :: [MainEntity] -> Html
+randView :: [LexiconEntry] -> Html
 randView records = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
@@ -27,7 +27,7 @@ randView records = docTypeHtml $ do
                 th "Magyar"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ records $ \ ME {en, hu, entity, difficulty} -> do
+            forM_ records $ \ LxcE {en, hu, entity, difficulty} -> do
                 tr $ do
                     td $ toHtml en
                     td $ toHtml hu

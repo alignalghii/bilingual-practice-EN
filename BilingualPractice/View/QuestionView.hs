@@ -2,7 +2,7 @@
 
 module BilingualPractice.View.QuestionView (questionView, resultView) where
 
-import BilingualPractice.Model.RelationalBusinessLogic (ConferEntity (..)) -- code smell?
+import BilingualPractice.Model.RelationalBusinessLogic (QuestionAnswerMatch (..)) -- code smell?
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map, mark)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span, label)
@@ -27,7 +27,7 @@ questionView en = docTypeHtml $ do
                 input ! type_ "hidden" ! name "en" ! value (toValue en)
                 input ! type_ "text"   ! name "hu" ! autofocus ""
 
-resultView :: [ConferEntity] -> Html
+resultView :: [QuestionAnswerMatch] -> Html
 resultView confer = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
@@ -48,7 +48,7 @@ resultView confer = docTypeHtml $ do
                 th "Jó vagy rossz lett-e?"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ confer $ \CE {dictEn, dictHu, yourHu, flag, mark, dictEntity, dictDifficulty} -> do
+            forM_ confer $ \QuAnsMtch {dictEn, dictHu, yourHu, flag, mark, dictEntity, dictDifficulty} -> do
                 tr $ do
                     td $ toHtml dictEn
                     td $ toHtml dictHu
