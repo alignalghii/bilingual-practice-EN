@@ -8,6 +8,7 @@ import Text.Blaze.Html5 as H hiding (map, mark)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span, label)
 import Control.Monad (forM_)
 import Data.Bool (bool)
+import Data.Time
 
 questionView :: String -> Html
 questionView en = docTypeHtml $ do
@@ -46,13 +47,17 @@ resultView confer = docTypeHtml $ do
                 th "Magyar"
                 th "A Te válaszod"
                 th "Jó vagy rossz lett-e?"
+                th "Kérdés időpontja"
+                th "Válaszod időpontja"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ confer $ \QuAnsMtch {dictEn, dictHu, yourHu, flag, mark, dictEntity, dictDifficulty} -> do
+            forM_ confer $ \QuAnsMtch {dictEn, dictHu, yourHu, flag, mark, askedAtTime, answeredAtTime, dictEntity, dictDifficulty} -> do
                 tr $ do
                     td $ toHtml dictEn
                     td $ toHtml dictHu
                     td ! class_ (bool "wrong" "ok" flag) $ toHtml yourHu
                     td $ toHtml mark
+                    td $ toHtml $ askedAtTime
+                    td $ toHtml $ answeredAtTime
                     td $ toHtml dictEntity
                     td $ toHtml dictDifficulty

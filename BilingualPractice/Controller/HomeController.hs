@@ -3,7 +3,7 @@
 module BilingualPractice.Controller.HomeController where
 
 import BilingualPractice.Controller.Base (blaze)
-import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..), numeralsTable, conferPracticeCertificate)
+import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..), numeralsTable, AnsweredQuestion (..), conferPracticeCertificate)
 import BilingualPractice.View.HomeView     (homeView)
 import BilingualPractice.View.DumpView     (dumpView)
 import BilingualPractice.View.RandView     (randView)
@@ -15,6 +15,7 @@ import Data.ListX (maybeHead)
 import Web.Scotty (ActionM, param, redirect)
 import Control.Monad.Trans (liftIO)
 import Data.List ((\\))
+import Data.Time (getCurrentTime, formatTime, defaultTimeLocale)
 
 homeAction :: ActionM ()
 homeAction = blaze homeView
@@ -43,22 +44,23 @@ prepareExamenEtalon = do
 poseFirstRemainingExamenQuestionOrAnounceResultAction :: ActionM ()
 poseFirstRemainingExamenQuestionOrAnounceResultAction = do
     etalon   <- liftIO $ readTable "etalon.table"   :: ActionM [LexiconEntry]
-    personal <- liftIO $ readTable "personal.table" :: ActionM [LexiconEntry]
+    personal <- liftIO $ readTable "personal.table" :: ActionM [AnsweredQuestion]
     let etalon_questions     = map en etalon
-        answered_questions   = map en personal
+        answered_questions   = map ansEn personal
         unanswered_questions = etalon_questions \\ answered_questions
     maybe (announceResult etalon personal) (blaze . questionView) (maybeHead unanswered_questions)
 
 receiveAnswerForQuestion :: ActionM ()
 receiveAnswerForQuestion = do
-    en       <- param "en"
-    hu       <- param "hu"
+    ansEn       <- param "en"
+    ansHu       <- param "hu"
     personal <- liftIO $ do
-                             personal <- readTable "personal.table" :: IO [LexiconEntry]
-                             -- personal       <- read <$> hGetContents personalHandle :: IO [LexiconEntry]
-                             writeTable "personal.table" $ personal ++ [LxcE {en, hu, entity = "", difficulty = ""}]
+                             ansTimeEnd <- formatTime defaultTimeLocale "%H:%M:%S"  <$> getCurrentTime
+                             personal <- readTable "personal.table" :: IO [AnsweredQuestion]
+                             -- personal       <- read <$> hGetContents personalHandle :: IO [AnsweredQuestion]
+                             writeTable "personal.table" $ personal ++ [AnsQu {ansEn, ansHu, ansTimeStart = "", ansTimeEnd}]
                              -- liftIO $ writeTable "personal.table" $ personal ++ [(en, hu, "", "")]
     redirect "/question"
 
-announceResult :: [LexiconEntry] -> [LexiconEntry] -> ActionM ()
+announceResult :: [LexiconEntry] -> [AnsweredQuestion] -> ActionM ()
 announceResult etalon personal = blaze $ resultView $ conferPracticeCertificate etalon personal

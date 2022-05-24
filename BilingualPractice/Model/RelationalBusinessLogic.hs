@@ -12,16 +12,18 @@ data LexiconEntry = LxcE {en, hu, entity, difficulty :: String} deriving (Read, 
 numeralsTable :: [LexiconEntry]
 numeralsTable = zipWith4 LxcE numerals_en numerals_hu (repeat "Szó") (repeat "Könnyű")
 
-findTranslation :: String -> [LexiconEntry] -> String
-findTranslation sameEn = hu . head . filter ((== sameEn) . en)
+findYourTranslation :: String -> [AnsweredQuestion] -> AnsweredQuestion
+findYourTranslation sameEn = head . filter ((== sameEn) . ansEn)
 
-data QuestionAnswerMatch = QuAnsMtch {dictEn, dictHu, yourHu :: String, flag :: Bool, mark, dictEntity, dictDifficulty :: String}
+data AnsweredQuestion = AnsQu {ansEn, ansHu, ansTimeStart, ansTimeEnd :: String} deriving (Read, Show) -- Eq
 
-conferPracticeCertificate :: [LexiconEntry] -> [LexiconEntry] -> [QuestionAnswerMatch]
+data QuestionAnswerMatch = QuAnsMtch {dictEn, dictHu, yourHu :: String, flag :: Bool, mark, askedAtTime, answeredAtTime, dictEntity, dictDifficulty :: String}
+
+conferPracticeCertificate :: [LexiconEntry] -> [AnsweredQuestion] -> [QuestionAnswerMatch]
 conferPracticeCertificate etalon personal = map (conferAnswer personal) etalon
 
-conferAnswer :: [LexiconEntry] -> LexiconEntry -> QuestionAnswerMatch
-conferAnswer personal LxcE {en, hu, entity, difficulty} = let yourHu = findTranslation en personal
-                                                              flag   = hu == yourHu
+conferAnswer :: [AnsweredQuestion] -> LexiconEntry -> QuestionAnswerMatch
+conferAnswer personal LxcE {en, hu, entity, difficulty} = let AnsQu {ansHu, ansTimeStart, ansTimeEnd} = findYourTranslation en personal
+                                                              flag   = hu == ansHu
                                                               mark   = bool "Rossz" "Jó" flag
-                                                          in QuAnsMtch {dictEn = en, dictHu = hu, yourHu, flag, mark, dictEntity = entity, dictDifficulty = difficulty}
+                                                          in QuAnsMtch {dictEn = en, dictHu = hu, yourHu = ansHu, flag, mark, askedAtTime = ansTimeStart, answeredAtTime = ansTimeEnd, dictEntity = entity, dictDifficulty = difficulty}
