@@ -2,6 +2,7 @@
 
 module Data.ListX where
 
+import Data.List.HT (viewL)
 import Data.Maybe.HT (toMaybe)
 import Data.Maybe (mapMaybe)
 
@@ -34,3 +35,7 @@ select (i + 1) (a : as) = havingPassed a <$> select i as
 
 havingPassed :: a -> ListZipper_bothNonrev a -> ListZipper_bothNonrev a
 havingPassed a (before, a', after) = (a : before, a', after)
+
+
+maybeHead :: [a] -> Maybe a
+maybeHead = fmap fst . viewL

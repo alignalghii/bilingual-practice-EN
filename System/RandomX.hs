@@ -5,8 +5,8 @@ module System.RandomX where
 import Data.ListX (ListZipper_bothNonrev, select)
 import Data.BoolX (straightVsReverse)
 import Data.TupleX (firstFirst)
-import System.Random (StdGen, randomR)
-import Control.Monad.State.Strict -- Lazy vs Strict seems to be not affecting of our main laziness question here
+import System.Random (StdGen, newStdGen, randomR)
+import Control.Monad.State.Strict (State, state, evalState, StateT) -- Lazy vs Strict seems to be not affecting of our main laziness question here
 import Control.Arrow (first)
 import Data.Maybe (fromJust)
 
@@ -70,3 +70,9 @@ type SeedStateT m a = StateT StdGen m a
 -- randIterArch :: Monad m => Int -> (StdGen -> m (a, StdGen)) -> StdGen -> m ([a], StdGen)
 
 -- randIterArchSTM :: Monad m => Int -> SeedStateT m a -> SeedStateT m [a]
+
+
+-- IO:
+
+randQuery :: Int -> [a] ->  IO [a]
+randQuery sampleSize relation = fst . evalState (randVariateMaxSM relation sampleSize) <$> newStdGen

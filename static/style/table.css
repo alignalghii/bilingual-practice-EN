@@ -1,0 +1,19 @@
+table, td, th {
+	border: 1px solid black;
+}
+
+th {
+	background-color: lightgray;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+.ok {
+	background-color: lightgreen;
+}
+
+.wrong {
+	background-color: pink;
+}
