@@ -1,10 +1,9 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, NamedFieldPuns #-}
 
 module BilingualPractice.Controller.HomeController where
 
 import BilingualPractice.Controller.Base (blaze)
-import BilingualPractice.Model.Grammar.Numeral (numeralsTable)
-import BilingualPractice.Model.RelationalBusinessLogic (MainEntity, project_en, conferResults)
+import BilingualPractice.Model.RelationalBusinessLogic (MainEntity (..), numeralsTable, conferResults)
 import BilingualPractice.View.HomeView     (homeView)
 import BilingualPractice.View.DumpView     (dumpView)
 import BilingualPractice.View.RandView     (randView)
@@ -45,8 +44,8 @@ poseFirstRemainingExamenQuestionOrAnounceResultAction :: ActionM ()
 poseFirstRemainingExamenQuestionOrAnounceResultAction = do
     etalon   <- liftIO $ readTable "etalon.table"   :: ActionM [MainEntity]
     personal <- liftIO $ readTable "personal.table" :: ActionM [MainEntity]
-    let etalon_questions     = map project_en etalon
-        answered_questions   = map project_en personal
+    let etalon_questions     = map en etalon
+        answered_questions   = map en personal
         unanswered_questions = etalon_questions \\ answered_questions
     maybe (announceResult etalon personal) (blaze . questionView) (maybeHead unanswered_questions)
 
@@ -57,7 +56,7 @@ receiveAnswerForQuestion = do
     personal <- liftIO $ do
                              personal <- readTable "personal.table" :: IO [MainEntity]
                              -- personal       <- read <$> hGetContents personalHandle :: IO [MainEntity]
-                             writeTable "personal.table" $ personal ++ [(en, hu, "", "")]
+                             writeTable "personal.table" $ personal ++ [ME {en, hu, entity = "", difficulty = ""}]
                              -- liftIO $ writeTable "personal.table" $ personal ++ [(en, hu, "", "")]
     redirect "/question"
 

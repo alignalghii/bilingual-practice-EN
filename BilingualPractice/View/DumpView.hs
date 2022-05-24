@@ -1,13 +1,14 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, NamedFieldPuns #-}
 
 module BilingualPractice.View.DumpView (dumpView) where
 
+import BilingualPractice.Model.RelationalBusinessLogic (MainEntity (..))
 import Prelude hiding (head)
 import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes as HA hiding (title, span, form)
 import Control.Monad (forM_)
 
-dumpView :: [(String, String, String, String)] -> Html
+dumpView :: [MainEntity] -> Html
 dumpView vocabularyData = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
@@ -24,7 +25,7 @@ dumpView vocabularyData = docTypeHtml $ do
                 th "Magyar"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ vocabularyData $ \(en, hu, entity, difficulty) -> do
+            forM_ vocabularyData $ \ ME {en, hu, entity, difficulty} -> do
                 tr $ do
                     td $ toHtml en
                     td $ toHtml hu

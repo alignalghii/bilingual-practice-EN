@@ -1,10 +1,10 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, NamedFieldPuns #-}
 
 module BilingualPractice.View.QuestionView (questionView, resultView) where
 
-import BilingualPractice.Model.RelationalBusinessLogic (ConferEntity) -- code smell?
+import BilingualPractice.Model.RelationalBusinessLogic (ConferEntity (..)) -- code smell?
 import Prelude hiding (head, span)
-import Text.Blaze.Html5 as H hiding (map)
+import Text.Blaze.Html5 as H hiding (map, mark)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span, label)
 import Control.Monad (forM_)
 import Data.Bool (bool)
@@ -48,11 +48,11 @@ resultView confer = docTypeHtml $ do
                 th "Jó vagy rossz lett-e?"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ confer $ \(en, hu, yourHu, flag, mark, entity, difficulty) -> do
+            forM_ confer $ \CE {dictEn, dictHu, yourHu, flag, mark, dictEntity, dictDifficulty} -> do
                 tr $ do
-                    td $ toHtml en
-                    td $ toHtml hu
+                    td $ toHtml dictEn
+                    td $ toHtml dictHu
                     td ! class_ (bool "wrong" "ok" flag) $ toHtml yourHu
                     td $ toHtml mark
-                    td $ toHtml entity
-                    td $ toHtml difficulty
+                    td $ toHtml dictEntity
+                    td $ toHtml dictDifficulty

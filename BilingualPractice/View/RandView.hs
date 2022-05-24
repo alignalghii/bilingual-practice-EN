@@ -1,13 +1,14 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, NamedFieldPuns #-}
 
 module BilingualPractice.View.RandView (randView) where
 
+import BilingualPractice.Model.RelationalBusinessLogic (MainEntity (..))
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span)
 import Control.Monad (forM_)
 
-randView :: [(String, String, String, String)] -> Html
+randView :: [MainEntity] -> Html
 randView records = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
@@ -26,7 +27,7 @@ randView records = docTypeHtml $ do
                 th "Magyar"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ records $ \(en, hu, entity, difficulty) -> do
+            forM_ records $ \ ME {en, hu, entity, difficulty} -> do
                 tr $ do
                     td $ toHtml en
                     td $ toHtml hu

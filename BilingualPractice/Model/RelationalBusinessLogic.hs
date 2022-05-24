@@ -1,28 +1,29 @@
+{-# LANGUAGE NamedFieldPuns #-}
+
 module BilingualPractice.Model.RelationalBusinessLogic where
 
+import BilingualPractice.Model.Grammar.Numeral (numerals_en, numerals_hu)
+import Data.List (zipWith4)
 import Data.Bool (bool)
 
 
 -- TODO: use records with derived Read, Show, Eq
 
-type MainEntity = (String, String, String, String)
+data MainEntity = ME {en, hu, entity, difficulty :: String} deriving (Read, Show)
 
-project_en, project_hu, project_entity, project_difficulty :: MainEntity -> String
-project_en         (en, _, _    , _         ) = en
-project_hu         (_, hu, _    , _         ) = hu
-project_entity     (_, _, entity, _         ) = entity
-project_difficulty (_, _, _     , difficulty) = difficulty
+numeralsTable :: [MainEntity]
+numeralsTable = zipWith4 ME numerals_en numerals_hu (repeat "Szó") (repeat "Könnyű")
 
 findTranslation :: String -> [MainEntity] -> String
-findTranslation en = project_hu . head . filter ((== en) . project_en)
+findTranslation sameEn = hu . head . filter ((== sameEn) . en)
 
-type ConferEntity = (String, String, String, Bool, String, String, String)
+data ConferEntity = CE {dictEn, dictHu, yourHu :: String, flag :: Bool, mark, dictEntity, dictDifficulty :: String}
 
 conferResults :: [MainEntity] -> [MainEntity] -> [ConferEntity]
 conferResults etalon personal = map (conferAnswer personal) etalon
 
 conferAnswer :: [MainEntity] -> MainEntity -> ConferEntity
-conferAnswer personal (en, hu, entity, difficulty) = let yourHu = findTranslation en personal
-                                                         flag   = hu == yourHu
-                                                         mark   = bool "Rossz" "Jó" flag
-                                                     in  (en, hu, yourHu, flag, mark, entity, difficulty)
+conferAnswer personal ME {en, hu, entity, difficulty} = let yourHu = findTranslation en personal
+                                                            flag   = hu == yourHu
+                                                            mark   = bool "Rossz" "Jó" flag
+                                                        in CE {dictEn = en, dictHu = hu, yourHu, flag, mark, dictEntity = entity, dictDifficulty = difficulty}
