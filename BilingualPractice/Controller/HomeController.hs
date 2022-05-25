@@ -15,7 +15,7 @@ import Data.ListX (maybeHead)
 import Web.Scotty (ActionM, param, redirect)
 import Control.Monad.Trans (liftIO)
 import Data.List ((\\))
-import Data.Time (getCurrentTime, formatTime, defaultTimeLocale)
+import Data.Time (getCurrentTime)
 
 homeAction :: ActionM ()
 homeAction = blaze homeView
@@ -55,7 +55,7 @@ receiveAnswerForQuestion = do
     ansEn       <- param "en"
     ansHu       <- param "hu"
     personal <- liftIO $ do
-        ansTimeEnd <- formatTime defaultTimeLocale "%H:%M:%S"  <$> getCurrentTime
+        ansTimeEnd <- show <$> getCurrentTime
         insertIntoTable "personal.table" AnsQu {ansEn, ansHu, ansTimeStart = "", ansTimeEnd}
     redirect "/question"
 

@@ -3,6 +3,7 @@
 module BilingualPractice.Model.RelationalBusinessLogic where
 
 import BilingualPractice.Model.Grammar.Numeral (numerals_en, numerals_hu)
+import Data.TimeX (abbrevTimeRead)
 import Data.List (zipWith4)
 import Data.Bool (bool)
 
@@ -26,4 +27,4 @@ conferAnswer :: [AnsweredQuestion] -> LexiconEntry -> QuestionAnswerMatch
 conferAnswer personal LxcE {en, hu, entity, difficulty} = let AnsQu {ansHu, ansTimeStart, ansTimeEnd} = findYourTranslation en personal
                                                               flag   = hu == ansHu
                                                               mark   = bool "Rossz" "Jó" flag
-                                                          in QuAnsMtch {dictEn = en, dictHu = hu, yourHu = ansHu, flag, mark, askedAtTime = ansTimeStart, answeredAtTime = ansTimeEnd, dictEntity = entity, dictDifficulty = difficulty}
+                                                          in QuAnsMtch {dictEn = en, dictHu = hu, yourHu = ansHu, flag, mark, askedAtTime = ansTimeStart, answeredAtTime = abbrevTimeRead ansTimeEnd, dictEntity = entity, dictDifficulty = difficulty}
