@@ -2,9 +2,9 @@
 
 module BilingualPractice.Router where
 
-import BilingualPractice.Controller.HomeController (homeAction, dumpAction, randAction,
-                                                    proposeExamenAction, performExamenAction,
-                                                    poseFirstRemainingExamenQuestionOrAnounceResultAction, receiveAnswerForQuestion)
+import BilingualPractice.Controller.HomeController (homeAction, dumpAction, randAction)
+import BilingualPractice.Controller.PracticeController (proposeExamenAction, performExamenAction,
+                                                        poseFirstRemainingExamenQuestionOrAnounceResultAction, receiveAnswerForQuestion)
 import BilingualPractice.BuiltinServer (builtinServerOptions)
 import Web.Scotty (ScottyM, middleware, get, post)
 
@@ -18,7 +18,6 @@ router logFlag = do
     post "/examen"   performExamenAction
     get  "/question" poseFirstRemainingExamenQuestionOrAnounceResultAction
     post "/question" receiveAnswerForQuestion
-
 
 -- Important note:
 -- entering examenAction reloads the etalon table and empties the personal table,

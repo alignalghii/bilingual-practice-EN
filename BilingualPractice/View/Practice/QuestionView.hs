@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings, NamedFieldPuns #-}
 
-module BilingualPractice.View.QuestionView (questionView, resultView) where
+module BilingualPractice.View.Practice.QuestionView (questionView, resultView) where
 
 import BilingualPractice.Model.RelationalBusinessLogic (QuestionAnswerMatch (..)) -- code smell?
 import Prelude hiding (head, span)

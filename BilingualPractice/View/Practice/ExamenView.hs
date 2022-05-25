@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module BilingualPractice.View.ExamenView (examenView) where
+module BilingualPractice.View.Practice.ExamenView (examenView) where
 
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map)

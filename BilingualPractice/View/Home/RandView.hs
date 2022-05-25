@@ -1,23 +1,25 @@
 {-# LANGUAGE OverloadedStrings, NamedFieldPuns #-}
 
-module BilingualPractice.View.DumpView (dumpView) where
+module BilingualPractice.View.Home.RandView (randView) where
 
 import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..))
-import Prelude hiding (head)
+import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map)
-import Text.Blaze.Html5.Attributes as HA hiding (title, span, form)
+import Text.Blaze.Html5.Attributes as HA hiding (title, form, span)
 import Control.Monad (forM_)
 
-dumpView :: [LexiconEntry] -> Html
-dumpView vocabularyData = docTypeHtml $ do
+randView :: [LexiconEntry] -> Html
+randView records = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
         link ! rel "stylesheet" ! href "style/table.css"
-        title "Magyar-angol szó- és mondatgyakorló — Teljes kimutatás"
+        title "Magyar-angol szó- és mondatgyakorló — Véletlen kiválasztás"
     body $ do
-        h1 "Magyar-angol szó- és mondatgyakorló — Teljes kimutatás"
-        p $
+        h1 "Magyar-angol szó- és mondatgyakorló — Véletlen kiválasztás"
+        p $ do
+            a ! href "/rand" $ "Újraválogatás"
+            span " ||| "
             a ! href "/" $ "Vissza a főoldalra"
         table $ do
             tr $ do
@@ -25,7 +27,7 @@ dumpView vocabularyData = docTypeHtml $ do
                 th "Magyar"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ vocabularyData $ \ LxcE {en, hu, entity, difficulty} -> do
+            forM_ records $ \ LxcE {en, hu, entity, difficulty} -> do
                 tr $ do
                     td $ toHtml en
                     td $ toHtml hu
