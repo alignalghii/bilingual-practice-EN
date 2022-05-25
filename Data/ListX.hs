@@ -39,3 +39,6 @@ havingPassed a (before, a', after) = (a : before, a', after)
 
 maybeHead :: [a] -> Maybe a
 maybeHead = fmap fst . viewL
+
+insertAfter :: [a] -> a -> [a]
+insertAfter as a = as ++ [a] -- not efficient

@@ -3,13 +3,13 @@
 module BilingualPractice.Controller.HomeController where
 
 import BilingualPractice.Controller.Base (blaze)
-import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..), numeralsTable, AnsweredQuestion (..), conferPracticeCertificate)
+import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..), numeralsRelation, AnsweredQuestion (..), conferPracticeCertificate)
 import BilingualPractice.View.HomeView     (homeView)
 import BilingualPractice.View.DumpView     (dumpView)
 import BilingualPractice.View.RandView     (randView)
 import BilingualPractice.View.ExamenView   (examenView)
 import BilingualPractice.View.QuestionView (questionView, resultView) -- !!
-import Database.SimpleHackDB.FileStorage   (readTable, writeTable)
+import Database.SimpleHackDB.FileStorage   (readTable, writeTable, truncateTable, insertIntoTable)
 import System.RandomX (randQuery)
 import Data.ListX (maybeHead)
 import Web.Scotty (ActionM, param, redirect)
@@ -21,10 +21,10 @@ homeAction :: ActionM ()
 homeAction = blaze homeView
 
 dumpAction :: ActionM ()
-dumpAction = blaze $ dumpView numeralsTable
+dumpAction = blaze $ dumpView numeralsRelation
 
 randAction :: ActionM ()
-randAction = liftIO (randQuery 10 numeralsTable) >>= (blaze . randView)
+randAction = liftIO (randQuery 10 numeralsRelation) >>= (blaze . randView)
 
 proposeExamenAction :: ActionM ()
 proposeExamenAction = blaze examenView
@@ -35,11 +35,11 @@ performExamenAction = do
     redirect "/question"
 
 
-prepareExamenEtalon :: IO ()
+prepareExamenEtalon :: IO [AnsweredQuestion]
 prepareExamenEtalon = do
-    etalon <- randQuery 10 numeralsTable
+    etalon <- randQuery 10 numeralsRelation
     writeTable "etalon.table" etalon
-    writeTable "personal.table" ([] :: [LexiconEntry])
+    truncateTable "personal.table"
 
 poseFirstRemainingExamenQuestionOrAnounceResultAction :: ActionM ()
 poseFirstRemainingExamenQuestionOrAnounceResultAction = do
@@ -55,11 +55,8 @@ receiveAnswerForQuestion = do
     ansEn       <- param "en"
     ansHu       <- param "hu"
     personal <- liftIO $ do
-                             ansTimeEnd <- formatTime defaultTimeLocale "%H:%M:%S"  <$> getCurrentTime
-                             personal <- readTable "personal.table" :: IO [AnsweredQuestion]
-                             -- personal       <- read <$> hGetContents personalHandle :: IO [AnsweredQuestion]
-                             writeTable "personal.table" $ personal ++ [AnsQu {ansEn, ansHu, ansTimeStart = "", ansTimeEnd}]
-                             -- liftIO $ writeTable "personal.table" $ personal ++ [(en, hu, "", "")]
+        ansTimeEnd <- formatTime defaultTimeLocale "%H:%M:%S"  <$> getCurrentTime
+        insertIntoTable "personal.table" AnsQu {ansEn, ansHu, ansTimeStart = "", ansTimeEnd}
     redirect "/question"
 
 announceResult :: [LexiconEntry] -> [AnsweredQuestion] -> ActionM ()
