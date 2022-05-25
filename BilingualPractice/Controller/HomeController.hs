@@ -3,7 +3,8 @@
 module BilingualPractice.Controller.HomeController where
 
 import BilingualPractice.Controller.Base (blaze)
-import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..), numeralsRelation, AnsweredQuestion (..), conferPracticeCertificate)
+import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..), numeralsRelation, AnsweredQuestion (..),
+                                                        withFirstUnansweredQuestionIfAnyOrElse, conferPracticeCertificate)
 import BilingualPractice.View.HomeView     (homeView)
 import BilingualPractice.View.DumpView     (dumpView)
 import BilingualPractice.View.RandView     (randView)
@@ -11,10 +12,8 @@ import BilingualPractice.View.ExamenView   (examenView)
 import BilingualPractice.View.QuestionView (questionView, resultView) -- !!
 import Database.SimpleHackDB.FileStorage   (readTable, writeTable, truncateTable, insertIntoTable)
 import System.RandomX (randQuery)
-import Data.ListX (maybeHead)
 import Web.Scotty (ActionM, param, redirect)
 import Control.Monad.Trans (liftIO)
-import Data.List ((\\))
 import Data.Time (getCurrentTime)
 
 homeAction :: ActionM ()
@@ -45,10 +44,9 @@ poseFirstRemainingExamenQuestionOrAnounceResultAction :: ActionM ()
 poseFirstRemainingExamenQuestionOrAnounceResultAction = do
     etalon   <- liftIO $ readTable "etalon.table"   :: ActionM [LexiconEntry]
     personal <- liftIO $ readTable "personal.table" :: ActionM [AnsweredQuestion]
-    let etalon_questions     = map en etalon
-        answered_questions   = map ansEn personal
-        unanswered_questions = etalon_questions \\ answered_questions
-    maybe (announceResult etalon personal) (blaze . questionView) (maybeHead unanswered_questions)
+    withFirstUnansweredQuestionIfAnyOrElse (blaze . questionView) announceResult etalon personal
+
+
 
 receiveAnswerForQuestion :: ActionM ()
 receiveAnswerForQuestion = do
