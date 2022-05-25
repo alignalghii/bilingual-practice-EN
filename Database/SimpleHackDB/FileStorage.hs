@@ -6,25 +6,30 @@ import Data.ListX (insertAfter)
 import Control.Monad (void)
 
 
-type TableName = FilePath
+type TableName = String
 
-writeTable :: Show record => FilePath -> [record] -> IO ()
-writeTable tableName = writeFile tableName . show
+allocate :: TableName -> FilePath
+allocate tableName = "var/" ++ tableName ++ ".table"
 
-writeTable_typDed :: Show record => FilePath -> [record] -> IO [record]
+
+writeTable :: Show record => TableName -> [record] -> IO ()
+writeTable tableName = writeFile (allocate tableName) . show
+
+writeTable_typDed :: Show record => TableName -> [record] -> IO [record]
 writeTable_typDed tableName records = writeTable tableName records >> return records
 
-readTable :: Read record => FilePath -> IO [record]
-readTable tableName = read <$> readFile tableName
+readTable :: Read record => TableName -> IO [record]
+readTable tableName = read <$> readFile (allocate tableName)
 
-truncateTable :: Show record => FilePath -> IO [record]
+
+truncateTable :: Show record => TableName -> IO [record]
 truncateTable tableName = writeTable_typDed tableName []
 
-modifyTable :: (Read record, Show record) => FilePath -> ([record] -> [record]) -> IO [record]
+modifyTable :: (Read record, Show record) => TableName -> ([record] -> [record]) -> IO [record]
 modifyTable tableName f = do
     records <- readTable tableName
     writeTable tableName $ f records
     return records
 
-insertIntoTable :: (Read record, Show record) => FilePath -> record -> IO ()
+insertIntoTable :: (Read record, Show record) => TableName -> record -> IO ()
 insertIntoTable tableName = void . modifyTable tableName . flip insertAfter
