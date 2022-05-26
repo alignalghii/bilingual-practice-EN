@@ -1,4 +1,4 @@
-module Database.SimpleHackDB.RelationalAlgebra where
+module Database.SimpleHackDBMS.RelationalAlgebra where
 
 import Data.Maybe.HT (toMaybe)
 import Data.Maybe (mapMaybe)

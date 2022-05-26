@@ -1,7 +1,7 @@
 module BilingualPractice.Model.TableManipulationForBusinessLogic where
 
 import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry, AnsweredQuestion)
-import Database.SimpleHackDB.FileStorage (readTable, writeTable, truncateTable)
+import Database.SimpleHackDBMS.FileStorage (readTable, writeTable, truncateTable)
 
 
 preparePracticeControllingTables :: IO [LexiconEntry] -> IO [AnsweredQuestion] -- return type enables type deduction for truncateTable

@@ -1,4 +1,4 @@
-module Database.SimpleHackDB.FileStorage where
+module Database.SimpleHackDBMS.FileStorage where
 
 import System.IO.Strict (readFile)
 import Prelude hiding (readFile)

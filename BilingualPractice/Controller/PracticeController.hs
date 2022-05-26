@@ -8,7 +8,7 @@ import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..), numer
 import BilingualPractice.Model.TableManipulationForBusinessLogic (preparePracticeControllingTables, readPracticeControllingTables)
 import BilingualPractice.View.Practice.ExamenView   (examenView)
 import BilingualPractice.View.Practice.QuestionView (questionView, resultView) -- !!
-import Database.SimpleHackDB.FileStorage   (insertIntoTable)
+import Database.SimpleHackDBMS.FileStorage (insertIntoTable)
 import System.RandomX (randQuery)
 import Web.Scotty (ActionM, param, redirect)
 import Control.Monad.Trans (liftIO)
