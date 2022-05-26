@@ -34,7 +34,7 @@ receiveAnswerForQuestion = do
     ansHu       <- param "hu"
     personal <- liftIO $ do
         ansTimeEnd <- show <$> getCurrentTime
-        insertIntoTable "personal.table" AnsQu {ansEn, ansHu, ansTimeStart = "", ansTimeEnd}
+        insertIntoTable "personal" AnsQu {ansEn, ansHu, ansTimeStart = "", ansTimeEnd}
     redirect "/question"
 
 announceResult :: [LexiconEntry] -> [AnsweredQuestion] -> ActionM ()
