@@ -23,7 +23,10 @@ questionView hu = docTypeHtml $ do
             span " ||| "
             a ! href "/" $ "Vissza a főoldalra"
             form ! action "/question" ! method "post" $ do
-                label $ toHtml hu
+                label "Magyarul:"
+                span $ toHtml hu
                 br
+                label "Angolul:"
                 input ! type_ "hidden" ! name "hu" ! value (toValue hu)
                 input ! type_ "text"   ! name "en" ! autofocus ""
+                button ! type_ "submit" $ "Mehet"
