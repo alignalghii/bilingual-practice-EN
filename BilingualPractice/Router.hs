@@ -3,10 +3,11 @@
 module BilingualPractice.Router where
 
 import BilingualPractice.Controller.HomeController (homeAction, dumpAction, randAction)
-import BilingualPractice.Controller.PracticeController (proposeExamenAction, performExamenAction,
-                                                        poseFirstRemainingExamenQuestionOrAnounceResultAction, receiveAnswerForQuestion)
+import BilingualPractice.Controller.PracticeController (proposeExamenAction, performExamenAction)
+import BilingualPractice.Controller.QuestionController (poseFirstRemainingExamenQuestionOrAnounceResultAction, receiveAnswerForQuestion)
 import BilingualPractice.BuiltinServer (builtinServerOptions)
 import Web.Scotty (ScottyM, middleware, get, post)
+
 
 router :: Bool -> ScottyM ()
 router logFlag = do
