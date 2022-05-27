@@ -11,7 +11,7 @@ import Data.Time
 
 
 questionView :: String -> Html
-questionView en = docTypeHtml $ do
+questionView hu = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
@@ -23,7 +23,7 @@ questionView en = docTypeHtml $ do
             span " ||| "
             a ! href "/" $ "Vissza a főoldalra"
             form ! action "/question" ! method "post" $ do
-                label $ toHtml en
+                label $ toHtml hu
                 br
-                input ! type_ "hidden" ! name "en" ! value (toValue en)
-                input ! type_ "text"   ! name "hu" ! autofocus ""
+                input ! type_ "hidden" ! name "hu" ! value (toValue hu)
+                input ! type_ "text"   ! name "en" ! autofocus ""

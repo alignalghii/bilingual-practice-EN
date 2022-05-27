@@ -26,19 +26,19 @@ resultView confer = docTypeHtml $ do
             a ! href "/" $ "Vissza a főoldalra"
         table $ do
             tr $ do
-                th "Angol"
                 th "Magyar"
+                th "Angol"
                 th "A Te válaszod"
                 th "Jó vagy rossz lett-e?"
                 th "Kérdés időpontja"
                 th "Válaszod időpontja"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ confer $ \QuAnsMtch {dictEn, dictHu, yourHu, flag, mark, askedAtTime, answeredAtTime, dictEntity, dictDifficulty} -> do
+            forM_ confer $ \QuAnsMtch {dictEn, dictHu, yourEn, flag, mark, askedAtTime, answeredAtTime, dictEntity, dictDifficulty} -> do
                 tr $ do
-                    td $ toHtml dictEn
                     td $ toHtml dictHu
-                    td ! class_ (bool "wrong" "ok" flag) $ toHtml yourHu
+                    td $ toHtml dictEn
+                    td ! class_ (bool "wrong" "ok" flag) $ toHtml yourEn
                     td $ toHtml mark
                     td $ toHtml $ askedAtTime
                     td $ toHtml $ answeredAtTime
