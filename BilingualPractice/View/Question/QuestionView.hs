@@ -10,8 +10,8 @@ import Data.Bool (bool)
 import Data.Time
 
 
-questionView :: String -> Html
-questionView hu = docTypeHtml $ do
+questionView :: Int -> Int -> String -> Html
+questionView nth ofAll hu = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
@@ -22,11 +22,12 @@ questionView hu = docTypeHtml $ do
             a ! href "/examen" $ "Vizsga újraindítása, eddigi eredmények feldolgozatlan törlése"
             span " ||| "
             a ! href "/" $ "Vissza a főoldalra"
-            form ! action "/question" ! method "post" $ do
-                label "Magyarul:"
-                span $ toHtml hu
-                br
-                label "Angolul:"
-                input ! type_ "hidden" ! name "hu" ! value (toValue hu)
-                input ! type_ "text"   ! name "en" ! autofocus ""
-                button ! type_ "submit" $ "Mehet"
+        p $ toHtml $ show nth ++ ". kérdés az " ++ show ofAll ++ " kérdésből:"
+        form ! action "/question" ! method "post" $ do
+            label "Magyarul:"
+            span $ toHtml hu
+            br
+            label "Angolul:"
+            input ! type_ "hidden" ! name "hu" ! value (toValue hu)
+            input ! type_ "text"   ! name "en" ! autofocus ""
+            button ! type_ "submit" $ "Mehet"

@@ -17,7 +17,9 @@ import Data.Time (getCurrentTime)
 poseFirstRemainingExamenQuestionOrAnounceResultAction :: ActionM ()
 poseFirstRemainingExamenQuestionOrAnounceResultAction = do
     (etalon, personal) <- liftIO readPracticeControllingTables
-    withFirstUnansweredQuestionIfAnyOrElse (blaze . questionView) announceResult etalon personal
+    let (ofAll, answd) = (length etalon, length personal)
+        nth            = answd + 1
+    withFirstUnansweredQuestionIfAnyOrElse (blaze . questionView nth ofAll) announceResult etalon personal
 
 receiveAnswerForQuestion :: ActionM ()
 receiveAnswerForQuestion = do
