@@ -7,7 +7,7 @@ import BilingualPractice.Model.RelationalBusinessLogic (numeralsRelation)
 import BilingualPractice.Model.TableManipulationForBusinessLogic (preparePracticeControllingTables)
 import BilingualPractice.View.Practice.ExamenView   (examenView)
 import System.RandomX (randQuery)
-import Web.Scotty (ActionM, redirect)
+import Web.Scotty (ActionM, param, redirect)
 import Control.Monad.Trans (liftIO)
 
 
@@ -16,5 +16,6 @@ proposeExamenAction = blaze examenView
 
 performExamenAction :: ActionM ()
 performExamenAction = do
-    liftIO $ preparePracticeControllingTables $ randQuery 10 numeralsRelation
+    numberOfQuestions <- read <$> param "number_of_questions" -- @TODO: form validation
+    liftIO $ preparePracticeControllingTables $ randQuery numberOfQuestions numeralsRelation
     redirect "/question"
