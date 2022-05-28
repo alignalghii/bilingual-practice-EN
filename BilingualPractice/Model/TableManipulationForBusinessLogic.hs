@@ -1,12 +1,11 @@
 module BilingualPractice.Model.TableManipulationForBusinessLogic where
 
-import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry, AnsweredQuestion)
+import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry, AnsweredQuestion, numeralsRelation)
 import Database.SimpleHackDBMS.FileStorage (readTable, writeTable, truncateTable)
 
 
-preparePracticeControllingTables :: IO [LexiconEntry] -> IO [AnsweredQuestion] -- return type enables type deduction for truncateTable
-preparePracticeControllingTables practiceRandomization = do
-    etalon <- practiceRandomization
+preparePracticeControllingTables :: [LexiconEntry] -> IO [AnsweredQuestion] -- return type enables type deduction for truncateTable
+preparePracticeControllingTables etalon = do
     writeTable "etalon" etalon
     truncateTable "personal" -- to help type deduction, we return with type [AnsweredQuestion] explicitly
 
