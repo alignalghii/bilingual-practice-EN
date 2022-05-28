@@ -2,7 +2,7 @@
 
 module BilingualPractice.View.Practice.ExamenView (examenView) where
 
-import Prelude hiding (head, span, min, max)
+import Prelude hiding (head, div, span, min, max)
 import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span, label)
 import Control.Monad (forM_)
@@ -19,8 +19,27 @@ examenView = docTypeHtml $ do
         p $ do
             a ! href "/" $ "Vissza a főoldalra"
         form ! action "/examen" ! method "post" $ do
-            p "Új gyakorlóvizsga indulhat? (A régi válaszaid, ha vannak, törlődnek.)"
+            div "Új gyakorlóvizsga indítása (a régi válaszaid, ha vannak, törlődnek)"
             label "Ennyi kérdésből álljon a gyakorlat:"
             input ! type_ "number" ! class_ "smallnum" ! min "1" ! max "30" ! name "number_of_questions" ! value "5"
+            div "Szám, szó, vagy mondat gyakoroltatása legyen?"
+            ul $ do
+                li $ do
+                    input ! type_ "checkbox" ! name "number" ! checked ""
+                    label "Szám"
+                li $ do
+                    input ! type_ "checkbox" ! name "word" ! checked ""
+                    label "Szó"
+                li $ do
+                    input ! type_ "checkbox" ! name "sentence" ! checked ""
+                    label "Mondat"
+            div "Milyen nehézségi szinten?"
+            ul $ do
+                li $ do
+                    input ! type_ "checkbox" ! name "easy" ! checked ""
+                    label "Könnyű"
+                li $ do
+                    input ! type_ "checkbox" ! name "difficult" ! checked ""
+                    label "Nehéz"
             button ! type_ "submit" $ "Mehet"
 
