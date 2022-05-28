@@ -17,5 +17,5 @@ proposeExamenAction = blaze examenView
 performExamenAction :: ActionM ()
 performExamenAction = do
     numberOfQuestions <- read <$> param "number_of_questions" -- @TODO: form validation
-    liftIO $ readExtendedLexiconTable >>= randQuery numberOfQuestions >>= preparePracticeControllingTables
+    liftIO $ preparePracticeControllingTables =<< randQuery numberOfQuestions =<< readExtendedLexiconTable
     redirect "/question"
