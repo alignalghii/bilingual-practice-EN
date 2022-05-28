@@ -3,7 +3,7 @@
 module BilingualPractice.Controller.PracticeController where
 
 import BilingualPractice.Controller.Base (blaze)
-import BilingualPractice.Model.RelationalBusinessLogic (numeralsRelation)
+import BilingualPractice.Model.TableManipulationForBusinessLogic (readExtendedLexiconTable)
 import BilingualPractice.Model.TableManipulationForBusinessLogic (preparePracticeControllingTables)
 import BilingualPractice.View.Practice.ExamenView   (examenView)
 import System.RandomX (randQuery)
@@ -17,5 +17,5 @@ proposeExamenAction = blaze examenView
 performExamenAction :: ActionM ()
 performExamenAction = do
     numberOfQuestions <- read <$> param "number_of_questions" -- @TODO: form validation
-    liftIO $ randQuery numberOfQuestions numeralsRelation >>= preparePracticeControllingTables
+    liftIO $ readExtendedLexiconTable >>= randQuery numberOfQuestions >>= preparePracticeControllingTables
     redirect "/question"

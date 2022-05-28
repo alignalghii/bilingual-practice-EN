@@ -4,6 +4,10 @@ import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry, AnsweredQu
 import Database.SimpleHackDBMS.FileStorage (readTable, writeTable, truncateTable)
 
 
+readLexiconTable, readExtendedLexiconTable :: IO [LexiconEntry]
+readLexiconTable         = readTable "lexicon"
+readExtendedLexiconTable = (++ numeralsRelation) <$> readLexiconTable
+
 preparePracticeControllingTables :: [LexiconEntry] -> IO [AnsweredQuestion] -- return type enables type deduction for truncateTable
 preparePracticeControllingTables etalon = do
     writeTable "etalon" etalon

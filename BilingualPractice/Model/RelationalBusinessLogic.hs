@@ -12,7 +12,7 @@ import Data.Bool (bool)
 data LexiconEntry = LxcE {hu, en, entity, difficulty :: String} deriving (Read, Show) -- Eq
 
 numeralsRelation :: [LexiconEntry]
-numeralsRelation = zipWith4 LxcE numerals_hu numerals_en  (repeat "Szó") (repeat "Könnyű")
+numeralsRelation = zipWith4 LxcE numerals_hu numerals_en  (repeat "szám") (repeat "könnyű")
 
 findYourTranslation :: String -> [AnsweredQuestion] -> AnsweredQuestion
 findYourTranslation sameHu = head . filter ((== sameHu) . ansHu)
