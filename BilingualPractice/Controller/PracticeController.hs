@@ -2,7 +2,7 @@
 
 module BilingualPractice.Controller.PracticeController where
 
-import BilingualPractice.Controller.Base (blaze)
+import Framework.Controller (blaze)
 import BilingualPractice.Model.TableManipulationForBusinessLogic (preparePracticeControllingTables, readExtendedLexiconTable)
 import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry, entity, difficulty)
 import BilingualPractice.Model.ViewModel (Viewable (view))

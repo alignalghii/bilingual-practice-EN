@@ -2,7 +2,7 @@
 
 module BilingualPractice.Controller.QuestionController where
 
-import BilingualPractice.Controller.Base (blaze)
+import Framework.Controller (blaze)
 import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry, AnsweredQuestion (..),
                                                         withFirstUnansweredQuestionIfAnyOrElse, conferPracticeCertificate)
 import BilingualPractice.Model.TableManipulationForBusinessLogic (preparePracticeControllingTables, readPracticeControllingTables)

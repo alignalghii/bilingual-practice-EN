@@ -1,6 +1,6 @@
 -- @TODO Move from BilingualPractice.Controller to Framework
 
-module BilingualPractice.Controller.Base where
+module Framework.Controller where
 
 import Web.Scotty (ActionM, html)
 import Text.Blaze.Html5 (Html)

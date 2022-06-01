@@ -2,7 +2,7 @@
 
 module BilingualPractice.Controller.HomeController where
 
-import BilingualPractice.Controller.Base (blaze)
+import Framework.Controller (blaze)
 import BilingualPractice.Model.TableManipulationForBusinessLogic (readExtendedLexiconTable)
 import BilingualPractice.View.Home.HomeView     (homeView)
 import BilingualPractice.View.Home.DumpView     (dumpView)
