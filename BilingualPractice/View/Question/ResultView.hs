@@ -2,7 +2,7 @@
 
 module BilingualPractice.View.Question.ResultView (resultView) where
 
-import BilingualPractice.Model.RelationalBusinessLogic (QuestionAnswerMatch (..)) -- code smell?
+import BilingualPractice.Model.ViewModel (QuestionAnswerMatchView (..))
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map, mark)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span, label)
@@ -11,7 +11,7 @@ import Data.Bool (bool)
 import Data.Time
 
 
-resultView :: [QuestionAnswerMatch] -> Html
+resultView :: [QuestionAnswerMatchView] -> Html
 resultView confer = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
@@ -34,13 +34,13 @@ resultView confer = docTypeHtml $ do
                 th "Válaszod időpontja"
                 th "Szó vagy mondat?"
                 th "Nehézségi szint"
-            forM_ confer $ \QuAnsMtch {dictEn, dictHu, yourEn, flag, mark, askedAtTime, answeredAtTime, dictEntity, dictDifficulty} -> do
+            forM_ confer $ \QuAnsMtchVw {dictHuView, dictEnView, yourEnView, markView = (markMsg, markStl), askedAtTimeView, answeredAtTimeView, dictEntityView, dictDifficultyView} -> do
                 tr $ do
-                    td $ toHtml dictHu
-                    td $ toHtml dictEn
-                    td ! class_ (bool "wrong" "ok" flag) $ toHtml yourEn
-                    td $ toHtml mark
-                    td $ toHtml $ askedAtTime
-                    td $ toHtml $ answeredAtTime
-                    td $ toHtml dictEntity
-                    td $ toHtml dictDifficulty
+                    td $ toHtml dictHuView
+                    td $ toHtml dictEnView
+                    td ! class_ (toValue markStl) $ toHtml yourEnView
+                    td $ toHtml markMsg
+                    td $ toHtml $ askedAtTimeView
+                    td $ toHtml $ answeredAtTimeView
+                    td $ toHtml dictEntityView
+                    td $ toHtml dictDifficultyView

@@ -3,23 +3,27 @@
 module BilingualPractice.Model.RelationalBusinessLogic where
 
 import BilingualPractice.Model.Grammar.Numeral (numerals_en, numerals_hu)
-import Data.TimeX (abbrevTimeRead)
+import Data.Time (UTCTime)
 import Data.ListX (maybeHead)
 import Data.List (zipWith4, (\\))
 import Data.Bool (bool)
 
 
-data LexiconEntry = LxcE {hu, en, entity, difficulty :: String} deriving (Read, Show) -- Eq
+data LinguisticalUnit = LUNumber | LUWord | LUSentence deriving (Eq, Read, Show, Bounded, Enum)
+
+data Difficulty = Easy | Difficult deriving (Eq, Read, Show, Bounded, Enum)
+
+data LexiconEntry = LxcE {hu, en :: String, entity :: LinguisticalUnit, difficulty :: Difficulty} deriving (Read, Show) -- Eq
 
 numeralsRelation :: [LexiconEntry]
-numeralsRelation = zipWith4 LxcE numerals_hu numerals_en  (repeat "szám") (repeat "könnyű")
+numeralsRelation = zipWith4 LxcE numerals_hu numerals_en  (repeat LUNumber) (repeat Easy)
 
 findYourTranslation :: String -> [AnsweredQuestion] -> AnsweredQuestion
 findYourTranslation sameHu = head . filter ((== sameHu) . ansHu)
 
-data AnsweredQuestion = AnsQu {ansHu, ansEn, ansTimeStart, ansTimeEnd :: String} deriving (Read, Show) -- Eq
+data AnsweredQuestion = AnsQu {ansHu, ansEn :: String, ansTimeStart, ansTimeEnd :: UTCTime} deriving (Read, Show) -- Eq
 
-data QuestionAnswerMatch = QuAnsMtch {dictHu, dictEn, yourEn :: String, flag :: Bool, mark, askedAtTime, answeredAtTime, dictEntity, dictDifficulty :: String}
+data QuestionAnswerMatch = QuAnsMtch {dictHu, dictEn, yourEn :: String, mark :: Bool, askedAtTime, answeredAtTime :: UTCTime, dictEntity :: LinguisticalUnit, dictDifficulty :: Difficulty}
 
 -- Governing a practice by the remaining questions:
 
@@ -41,6 +45,5 @@ conferPracticeCertificate etalon personal = map (conferAnswer personal) etalon
 
 conferAnswer :: [AnsweredQuestion] -> LexiconEntry -> QuestionAnswerMatch
 conferAnswer personal LxcE {hu, en, entity, difficulty} = let AnsQu {ansEn, ansTimeStart, ansTimeEnd} = findYourTranslation hu personal
-                                                              flag   = en == ansEn
-                                                              mark   = bool "Rossz" "Jó" flag
-                                                          in QuAnsMtch {dictHu = hu, dictEn = en, yourEn = ansEn, flag, mark, askedAtTime = ansTimeStart, answeredAtTime = abbrevTimeRead ansTimeEnd, dictEntity = entity, dictDifficulty = difficulty}
+                                                              mark   = en == ansEn
+                                                          in QuAnsMtch {dictHu = hu, dictEn = en, yourEn = ansEn, mark, askedAtTime = ansTimeStart, answeredAtTime = ansTimeEnd, dictEntity = entity, dictDifficulty = difficulty}

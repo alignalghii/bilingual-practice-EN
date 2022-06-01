@@ -20,11 +20,11 @@ propertyDisjunction = foldr (*||*) $ const False
 mapProperties :: Eq key => PropertyMapping key value -> [key]-> [value]
 mapProperties = mapMaybe . flip lookup
 
-makeSelectorProperty :: Eq value => (record -> value) -> value -> PropertyPredicate record
-makeSelectorProperty selector value = (== value) . selector
+matchField :: Eq value => (record -> value) -> value -> PropertyPredicate record
+matchField selector value = (== value) . selector
 
-selectorPropertiesConjunction :: (Eq key, Eq value) => (record -> value) -> PropertyMapping key value -> [key] -> PropertyPredicate record
-selectorPropertiesConjunction selector mapping keys = propertyDisjunction $ makeSelectorProperty selector <$> mapProperties mapping keys
+--selectorPropertiesDisjunction :: (Eq key, Eq value) => (record -> value) -> PropertyMapping key value -> [key] -> PropertyPredicate record
+--selectorPropertiesDisjunction selector mapping keys = propertyDisjunction $ matchField selector <$> mapProperties mapping keys
 
-selectorsPropertyCNF :: (Eq key, Eq value) => PropertyMapping (record -> value) (PropertyMapping key value) -> [key] -> PropertyPredicate record
-selectorsPropertyCNF selectorMappings keys = propertyConjunction $ map (flip id keys . uncurry selectorPropertiesConjunction) selectorMappings
+--selectorsPropertyCNF :: (Eq key, Eq value) => PropertyMapping (record -> value) (PropertyMapping key value) -> [key] -> PropertyPredicate record
+--selectorsPropertyCNF selectorMappings keys = selectorPropertiesDisjunction $ map (flip id keys . uncurry selectorPropertiesConjunction) selectorMappings

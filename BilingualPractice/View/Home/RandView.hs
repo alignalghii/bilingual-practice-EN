@@ -3,6 +3,7 @@
 module BilingualPractice.View.Home.RandView (randView) where
 
 import BilingualPractice.Model.RelationalBusinessLogic (LexiconEntry (..))
+import BilingualPractice.Model.ViewModel (view)
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span)
@@ -31,5 +32,5 @@ randView records = docTypeHtml $ do
                 tr $ do
                     td $ toHtml en
                     td $ toHtml hu
-                    td $ toHtml entity
-                    td $ toHtml difficulty
+                    td $ toHtml $ view entity
+                    td $ toHtml $ view difficulty
