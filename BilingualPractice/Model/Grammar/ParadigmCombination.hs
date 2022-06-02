@@ -1,6 +1,6 @@
 module  BilingualPractice.Model.Grammar.ParadigmCombination where
 
-import Data.ListX (descartesProduct2With, matrixSpanned2With)
+import Data.ListX (descartesProduct2With, matrixSpanned2With, matrixSpanned2With_altLexOrd)
 import Data.Monoid (Monoid, (<>))
 
 wordCombine :: Monoid a => [a] -> [a] -> [a]
@@ -16,5 +16,6 @@ parenthesize op cl stem = op  <> stem <> cl
 paradigmCombine :: Monoid a => [a] -> [a] -> [[a]]
 paradigmCombine = matrixSpanned2With (<>)
 
-paradigmCombineSep :: Monoid a => a -> [a] -> [a] -> [[a]]
-paradigmCombineSep sep = matrixSpanned2With (separate sep)
+paradigmCombineSep, paradigmCombineSep_altLexOrd  :: Monoid a => a -> [a] -> [a] -> [[a]]
+paradigmCombineSep sep           = matrixSpanned2With (separate sep)
+paradigmCombineSep_altLexOrd sep = matrixSpanned2With_altLexOrd (separate sep)

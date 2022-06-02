@@ -21,6 +21,9 @@ matrixSpanned2With f as bs = do
     a <- as
     return $ f a <$> bs
 
+matrixSpanned2With_altLexOrd :: (a -> b -> c) -> [a] -> [b] -> [[c]]
+matrixSpanned2With_altLexOrd = flip . matrixSpanned2With . flip
+
 selectByFlags :: [(a, Bool)] -> [a]
 selectByFlags = mapMaybe $ uncurry (flip toMaybe)
 

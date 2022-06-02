@@ -15,20 +15,20 @@ dumpView vocabularyData = docTypeHtml $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
         link ! rel "stylesheet" ! href "style/table.css"
-        title "Magyar-angol szó- és mondatgyakorló — Teljes kimutatás"
+        title "English-German word- and sentence practice — Dumping whole lexicon"
     body $ do
-        h1 "Magyar-angol szó- és mondatgyakorló — Teljes kimutatás"
+        h1 "English-German word- and sentence practice — Dumping whole lexicon"
         p $
-            a ! href "/" $ "Vissza a főoldalra"
+            a ! href "/" $ "Back to the main page"
         table $ do
             tr $ do
-                th "Angol"
-                th "Magyar"
-                th "Szó vagy mondat?"
-                th "Nehézségi szint"
-            forM_ vocabularyData $ \ LxcE {en, hu, entity, difficulty} -> do
+                th "English"
+                th "German"
+                th "Word or sentence?"
+                th "Difficulty level"
+            forM_ vocabularyData $ \ LxcE {en, de, entity, difficulty} -> do
                 tr $ do
                     td $ toHtml en
-                    td $ toHtml hu
+                    td $ toHtml de
                     td $ toHtml $ view entity
                     td $ toHtml $ view difficulty

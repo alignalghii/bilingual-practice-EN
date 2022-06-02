@@ -2,7 +2,7 @@
 
 module BilingualPractice.Model.RelationalBusinessLogic where
 
-import BilingualPractice.Model.Grammar.Numeral (numerals_en, numerals_hu)
+import BilingualPractice.Model.Grammar.Numeral (numerals_en, numerals_de)
 import Data.Time (UTCTime)
 import Data.ListX (maybeHead)
 import Data.List (zipWith4, (\\))
@@ -13,17 +13,17 @@ data LinguisticalUnit = LUNumber | LUWord | LUSentence deriving (Eq, Read, Show,
 
 data Difficulty = Easy | Difficult deriving (Eq, Read, Show, Bounded, Enum)
 
-data LexiconEntry = LxcE {hu, en :: String, entity :: LinguisticalUnit, difficulty :: Difficulty} deriving (Read, Show) -- Eq
+data LexiconEntry = LxcE {en, de :: String, entity :: LinguisticalUnit, difficulty :: Difficulty} deriving (Read, Show) -- Eq
 
 numeralsRelation :: [LexiconEntry]
-numeralsRelation = zipWith4 LxcE numerals_hu numerals_en  (repeat LUNumber) (repeat Easy)
+numeralsRelation = zipWith4 LxcE numerals_en numerals_de  (repeat LUNumber) (repeat Easy)
 
 findYourTranslation :: String -> [AnsweredQuestion] -> AnsweredQuestion
-findYourTranslation sameHu = head . filter ((== sameHu) . ansHu)
+findYourTranslation sameEn = head . filter ((== sameEn) . ansEn)
 
-data AnsweredQuestion = AnsQu {ansHu, ansEn :: String, ansTimeStart, ansTimeEnd :: UTCTime} deriving (Read, Show) -- Eq
+data AnsweredQuestion = AnsQu {ansEn, ansDe :: String, ansTimeStart, ansTimeEnd :: UTCTime} deriving (Read, Show) -- Eq
 
-data QuestionAnswerMatch = QuAnsMtch {dictHu, dictEn, yourEn :: String, mark :: Bool, askedAtTime, answeredAtTime :: UTCTime, dictEntity :: LinguisticalUnit, dictDifficulty :: Difficulty}
+data QuestionAnswerMatch = QuAnsMtch {dictEn, dictDe, yourDe :: String, mark :: Bool, askedAtTime, answeredAtTime :: UTCTime, dictEntity :: LinguisticalUnit, dictDifficulty :: Difficulty}
 
 -- Governing a practice by the remaining questions:
 
@@ -33,8 +33,8 @@ withFirstUnansweredQuestionIfAnyOrElse ask summarize etalon personal = maybe (su
                                                                               (maybeFirstUnansweredQuestion etalon personal)
 
 maybeFirstUnansweredQuestion :: [LexiconEntry] -> [AnsweredQuestion] -> Maybe String
-maybeFirstUnansweredQuestion etalon personal = let etalon_questions     = map hu etalon
-                                                   answered_questions   = map ansHu personal
+maybeFirstUnansweredQuestion etalon personal = let etalon_questions     = map en etalon
+                                                   answered_questions   = map ansEn personal
                                                    unanswered_questions = etalon_questions \\ answered_questions
                                                in maybeHead unanswered_questions
 
@@ -44,6 +44,6 @@ conferPracticeCertificate :: [LexiconEntry] -> [AnsweredQuestion] -> [QuestionAn
 conferPracticeCertificate etalon personal = map (conferAnswer personal) etalon
 
 conferAnswer :: [AnsweredQuestion] -> LexiconEntry -> QuestionAnswerMatch
-conferAnswer personal LxcE {hu, en, entity, difficulty} = let AnsQu {ansEn, ansTimeStart, ansTimeEnd} = findYourTranslation hu personal
-                                                              mark   = en == ansEn
-                                                          in QuAnsMtch {dictHu = hu, dictEn = en, yourEn = ansEn, mark, askedAtTime = ansTimeStart, answeredAtTime = ansTimeEnd, dictEntity = entity, dictDifficulty = difficulty}
+conferAnswer personal LxcE {en, de, entity, difficulty} = let AnsQu {ansDe, ansTimeStart, ansTimeEnd} = findYourTranslation en personal
+                                                              mark   = de == ansDe
+                                                          in QuAnsMtch {dictEn = en, dictDe = de, yourDe = ansDe, mark, askedAtTime = ansTimeStart, answeredAtTime = ansTimeEnd, dictEntity = entity, dictDifficulty = difficulty}

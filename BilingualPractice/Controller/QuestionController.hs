@@ -25,11 +25,11 @@ poseFirstRemainingExamenQuestionOrAnounceResultAction = do
 
 receiveAnswerForQuestion :: ActionM ()
 receiveAnswerForQuestion = do
-    ansHu       <- param "hu"
     ansEn       <- param "en"
+    ansDe       <- param "de"
     personal <- liftIO $ do
         ansTimeEnd <- getCurrentTime
-        insertIntoTable "personal" AnsQu {ansHu, ansEn, ansTimeStart = epoch, ansTimeEnd}
+        insertIntoTable "personal" AnsQu {ansEn, ansDe, ansTimeStart = epoch, ansTimeEnd}
     redirect "/question"
 
 announceResult :: [LexiconEntry] -> [AnsweredQuestion] -> ActionM ()

@@ -17,28 +17,28 @@ resultView confer = docTypeHtml $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
         link ! rel "stylesheet" ! href "style/table.css"
-        title "Magyar-angol szó- és mondatgyakorló — Eredményhirdetés"
+        title "English-German word- and sentence practice — Announcing results"
     body $ do
-        h1 "Magyar-angol szó- és mondatgyakorló — Eredményhirdetés"
+        h1 "English-German word- and sentence practice — Announcing results"
         p $ do
-            a ! href "/examen" $ "Új vizsga"
+            a ! href "/examen" $ "New practice"
             span " ||| "
-            a ! href "/" $ "Vissza a főoldalra"
+            a ! href "/" $ "Back to the main page"
         table $ do
             tr $ do
-                th "Magyar"
-                th "Angol"
-                th "A Te válaszod"
-                th "Jó vagy rossz lett-e?"
-                th "Kérdés időpontja"
-                th "Válaszod időpontja"
-                th "Szó vagy mondat?"
-                th "Nehézségi szint"
-            forM_ confer $ \QuAnsMtchVw {dictHuView, dictEnView, yourEnView, markView = (markMsg, markStl), askedAtTimeView, answeredAtTimeView, dictEntityView, dictDifficultyView} -> do
+                th "English"
+                th "German"
+                th "Your answer"
+                th "Is it O.K. or wrong?"
+                th "Time of asking the question"
+                th "Time of receiving Your answer"
+                th "Word or sentence?"
+                th "Difficulty level"
+            forM_ confer $ \QuAnsMtchVw {dictEnView, dictDeView, yourDeView, markView = (markMsg, markStl), askedAtTimeView, answeredAtTimeView, dictEntityView, dictDifficultyView} -> do
                 tr $ do
-                    td $ toHtml dictHuView
                     td $ toHtml dictEnView
-                    td ! class_ (toValue markStl) $ toHtml yourEnView
+                    td $ toHtml dictDeView
+                    td ! class_ (toValue markStl) $ toHtml yourDeView
                     td $ toHtml markMsg
                     td $ toHtml $ askedAtTimeView
                     td $ toHtml $ answeredAtTimeView

@@ -2,6 +2,7 @@
 
 module BilingualPractice.View.Question.QuestionView (questionView) where
 
+import BilingualPractice.Model.Grammar.Numeral (cardinalSuffix_en', pluralSuffix_en')
 import Prelude hiding (head, span)
 import Text.Blaze.Html5 as H hiding (map, mark)
 import Text.Blaze.Html5.Attributes as HA hiding (title, form, span, label)
@@ -11,23 +12,23 @@ import Data.Time
 
 
 questionView :: Int -> Int -> String -> Html
-questionView nth ofAll hu = docTypeHtml $ do
+questionView nth ofAll en = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
-        title "Magyar-angol szó- és mondatgyakorló — Kérdés"
+        title "English-German word- and sentence practice — Question"
     body $ do
-        h1 "Magyar-angol szó- és mondatgyakorló — Kérdés"
+        h1 "English-German word- and sentence practice — Question"
         p $ do
-            a ! href "/examen" $ "Vizsga újraindítása, eddigi eredmények feldolgozatlan törlése"
+            a ! href "/examen" $ "Restart practice, delete Your former anwers without processing"
             span " ||| "
-            a ! href "/" $ "Vissza a főoldalra"
-        p $ toHtml $ show nth ++ ". kérdés az " ++ show ofAll ++ " kérdésből:"
+            a ! href "/" $ "Back to the main page"
+        p $ toHtml $ cardinalSuffix_en' nth ++ " question out of " ++ pluralSuffix_en' ofAll "question" ++  ":"
         form ! action "/question" ! method "post" $ do
-            label "Magyarul:"
-            span $ toHtml hu
+            label "In English:"
+            span $ toHtml en
             br
-            label "Angolul:"
-            input ! type_ "hidden" ! name "hu" ! value (toValue hu)
-            input ! type_ "text"   ! name "en" ! autofocus ""
-            button ! type_ "submit" $ "Mehet"
+            label "In German:"
+            input ! type_ "hidden" ! name "en" ! value (toValue en)
+            input ! type_ "text"   ! name "de" ! autofocus ""
+            button ! type_ "submit" $ "Go!"

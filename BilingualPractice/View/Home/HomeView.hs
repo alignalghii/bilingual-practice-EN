@@ -12,16 +12,16 @@ homeView = docTypeHtml $ do
     head $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
-        title "Magyar-angol szó- és mondatgyakorló"
+        title "English-German word- and sentence practice"
     body $ do
-        h1 "Magyar-angol szó- és mondatgyakorló"
+        h1 "English-German word- and sentence practice"
         ul $ do
             li $ do
-                a ! href "/dump" $ "Teljes kimutatás"
-                span "(adminisztrátoroknak, fejlesztőknek)"
+                a ! href "/dump" $ "Dumping whole lexicon"
+                span "(for admins and developers)"
             li $ do
-                a ! href "/rand" $ "Véletlen kiválasztás"
-                span "(mint előfázisa a valódi tudástesztnek, gyakorlásnak)"
+                a ! href "/rand" $ "Random selection"
+                span "(also a developer-only functionality to test the correctness of randomizings)"
             li $ do
-                a ! href "/examen" $ "Véletlen kérdéssor"
-                span "Valódi tudásteszt, gyakorlás: interaktív szakasz, megválaszolandó kérdések sorozata"
+                a ! href "/examen" $ "Begin a practice out of randomly selected questions:"
+                span "The real functionality for users: knowledge quiz test, interactive practice: series of questions"

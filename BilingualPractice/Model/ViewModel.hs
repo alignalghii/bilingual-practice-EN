@@ -12,13 +12,13 @@ class Viewable a where
     view :: a -> String
 
 instance Viewable LinguisticalUnit where
-    view LUNumber   = "szám"
-    view LUWord     = "szó"
-    view LUSentence = "mondat"
+    view LUNumber   = "number"
+    view LUWord     = "word"
+    view LUSentence = "sentence"
 
 instance Viewable Difficulty where
-    view Easy      = "könnyű"
-    view Difficult = "nehéz"
+    view Easy      = "easy"
+    view Difficult = "difficult"
 
 
 instance FormParamable LinguisticalUnit where
@@ -31,11 +31,11 @@ instance FormParamable Difficulty where
     formParam Difficult = "difficult"
 
 
-data QuestionAnswerMatchView = QuAnsMtchVw {dictHuView, dictEnView, yourEnView :: String, markView :: (String, String), askedAtTimeView, answeredAtTimeView, dictEntityView, dictDifficultyView :: String}
+data QuestionAnswerMatchView = QuAnsMtchVw {dictEnView, dictDeView, yourDeView :: String, markView :: (String, String), askedAtTimeView, answeredAtTimeView, dictEntityView, dictDifficultyView :: String}
 
 viewMatch :: QuestionAnswerMatch -> QuestionAnswerMatchView
-viewMatch QuAnsMtch {dictHu, dictEn, yourEn, mark, askedAtTime, answeredAtTime, dictEntity, dictDifficulty} = QuAnsMtchVw {dictHuView = dictHu, dictEnView = dictEn, yourEnView = yourEn, markView = viewMark mark, askedAtTimeView = abbrevTime askedAtTime, answeredAtTimeView = abbrevTime answeredAtTime, dictEntityView = view dictEntity, dictDifficultyView = view dictDifficulty}
+viewMatch QuAnsMtch {dictEn, dictDe, yourDe, mark, askedAtTime, answeredAtTime, dictEntity, dictDifficulty} = QuAnsMtchVw {dictEnView = dictEn, dictDeView = dictDe, yourDeView = yourDe, markView = viewMark mark, askedAtTimeView = abbrevTime askedAtTime, answeredAtTimeView = abbrevTime answeredAtTime, dictEntityView = view dictEntity, dictDifficultyView = view dictDifficulty}
 
 
 viewMark :: Bool -> (String, String)
-viewMark = bool ("Rossz", "wrong") ("Jó", "ok")
+viewMark = bool ("Wrong", "wrong") ("O.K.", "ok")

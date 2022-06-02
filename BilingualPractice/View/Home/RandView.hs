@@ -15,22 +15,22 @@ randView records = docTypeHtml $ do
         meta ! charset "UTF-8"
         link ! rel "icon" ! href "img/favicon.ico"
         link ! rel "stylesheet" ! href "style/table.css"
-        title "Magyar-angol szó- és mondatgyakorló — Véletlen kiválasztás"
+        title "English-German word- and sentence practice — Random selection"
     body $ do
-        h1 "Magyar-angol szó- és mondatgyakorló — Véletlen kiválasztás"
+        h1 "English-German word- and sentence practice — Random selection"
         p $ do
-            a ! href "/rand" $ "Újraválogatás"
+            a ! href "/rand" $ "Do the random selection again"
             span " ||| "
-            a ! href "/" $ "Vissza a főoldalra"
+            a ! href "/" $ "Back to the main page"
         table $ do
             tr $ do
-                th "Angol"
-                th "Magyar"
-                th "Szó vagy mondat?"
-                th "Nehézségi szint"
-            forM_ records $ \ LxcE {en, hu, entity, difficulty} -> do
+                th "English"
+                th "German"
+                th "Word or sentence?"
+                th "Difficulty level"
+            forM_ records $ \ LxcE {en, de, entity, difficulty} -> do
                 tr $ do
                     td $ toHtml en
-                    td $ toHtml hu
+                    td $ toHtml de
                     td $ toHtml $ view entity
                     td $ toHtml $ view difficulty
